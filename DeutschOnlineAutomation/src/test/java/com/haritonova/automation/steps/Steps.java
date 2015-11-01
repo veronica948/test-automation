@@ -1,5 +1,6 @@
 package com.haritonova.automation.steps;
 
+import com.haritonova.automation.pages.CoursesPage;
 import com.haritonova.automation.pages.MainPage;
 import com.haritonova.automation.pages.TranslatePage;
 import org.apache.log4j.Logger;
@@ -57,5 +58,22 @@ public class Steps {
             }
         }
         return true;
+    }
+    public boolean courseCounrtyExists(String countryName) {
+        CoursesPage coursesPage = new CoursesPage(driver);
+        coursesPage.openPage();
+        List<WebElement> countryList = coursesPage.getAvailableCountries();
+        for(WebElement country : countryList) {
+            if(country.getText().toLowerCase().contains(countryName.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isNotEmptyCourseCountriesList() {
+        CoursesPage coursesPage = new CoursesPage(driver);
+        coursesPage.openPage();
+        List<WebElement> countryList = coursesPage.getAvailableCountries();
+        return !countryList.isEmpty();
     }
 }
