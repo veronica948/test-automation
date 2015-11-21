@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @author Veronica_Haritonova
  */
 public class Steps {
+
     private WebDriver driver;
 
     private final Logger logger = Logger.getLogger(Steps.class);
@@ -36,13 +37,16 @@ public class Steps {
 
 
     public String getSearchTitle(String input) {
+        logger.info("Get search tittle");
         MainPage mainPage = new MainPage(driver);
         mainPage.openPage();
         mainPage.makeSearch(input);
         String pageTitle = driver.getTitle();
+        logger.debug("Search tittle is " + pageTitle);
         return pageTitle;
     }
-    public String translateWord(String word) {
+    public List<String> translateWord(String word) {
+        logger.info("Get translation of word - " + word);
         TranslatePage translatePage = new TranslatePage(driver);
         translatePage.openPage();
         return translatePage.translate(word);
@@ -50,7 +54,9 @@ public class Steps {
     public boolean searchResultsContainsInput(String input) {
         MainPage mainPage = new MainPage(driver);
         mainPage.openPage();
+        logger.info("Start search with query - " + input);
         mainPage.makeSearch(input);
+        logger.info("Get search results");
         List<WebElement> searchResults = driver.findElements(By.className("eMessage"));
         for (WebElement searchResult : searchResults) {
             if (!searchResult.getText().toLowerCase().contains(input.toLowerCase())) {
@@ -62,6 +68,7 @@ public class Steps {
     public boolean courseCounrtyExists(String countryName) {
         CoursesPage coursesPage = new CoursesPage(driver);
         coursesPage.openPage();
+        logger.info("Get the list of course countries");
         List<WebElement> countryList = coursesPage.getAvailableCountries();
         for(WebElement country : countryList) {
             if(country.getText().toLowerCase().contains(countryName.toLowerCase())) {
@@ -73,7 +80,9 @@ public class Steps {
     public boolean isNotEmptyCourseCountriesList() {
         CoursesPage coursesPage = new CoursesPage(driver);
         coursesPage.openPage();
+        logger.info("Get the list of course countries");
         List<WebElement> countryList = coursesPage.getAvailableCountries();
+        logger.info("Check the list is not empty");
         return !countryList.isEmpty();
     }
 }
