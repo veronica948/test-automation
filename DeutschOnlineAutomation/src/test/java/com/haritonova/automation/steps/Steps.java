@@ -2,7 +2,6 @@ package com.haritonova.automation.steps;
 
 import com.haritonova.automation.pages.CoursesPage;
 import com.haritonova.automation.pages.MainPage;
-import com.haritonova.automation.pages.TranslatePage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -35,27 +34,25 @@ public class Steps {
         logger.info("Browser closed");
     }
 
-
     public String getSearchTitle(String input) {
         logger.info("Get search tittle");
         MainPage mainPage = new MainPage(driver);
         mainPage.openPage();
+        logger.info("Page opened");
         mainPage.makeSearch(input);
+        logger.info("Search executed");
         String pageTitle = driver.getTitle();
         logger.debug("Search tittle is " + pageTitle);
         return pageTitle;
     }
-    public List<String> translateWord(String word) {
-        logger.info("Get translation of word - " + word);
-        TranslatePage translatePage = new TranslatePage(driver);
-        translatePage.openPage();
-        return translatePage.translate(word);
-    }
+
     public boolean searchResultsContainsInput(String input) {
         MainPage mainPage = new MainPage(driver);
         mainPage.openPage();
+        logger.info("Page opened");
         logger.info("Start search with query - " + input);
         mainPage.makeSearch(input);
+        logger.info("Search executed");
         logger.info("Get search results");
         List<WebElement> searchResults = driver.findElements(By.className("eMessage"));
         for (WebElement searchResult : searchResults) {
@@ -65,9 +62,20 @@ public class Steps {
         }
         return true;
     }
-    public boolean courseCounrtyExists(String countryName) {
+    public boolean isNotEmptySearchResult(String input) {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.openPage();
+        logger.info("Page opened");
+        logger.info("Start search with query - " + input);
+        mainPage.makeSearch(input);
+        logger.info("Get search results");
+        List<WebElement> searchResults = driver.findElements(By.className("eMessage"));
+        return !searchResults.isEmpty();
+    }
+    public boolean courseCountryExists(String countryName) {
         CoursesPage coursesPage = new CoursesPage(driver);
         coursesPage.openPage();
+        logger.info("Page opened");
         logger.info("Get the list of course countries");
         List<WebElement> countryList = coursesPage.getAvailableCountries();
         for(WebElement country : countryList) {
@@ -80,9 +88,9 @@ public class Steps {
     public boolean isNotEmptyCourseCountriesList() {
         CoursesPage coursesPage = new CoursesPage(driver);
         coursesPage.openPage();
+        logger.info("Page opened");
         logger.info("Get the list of course countries");
         List<WebElement> countryList = coursesPage.getAvailableCountries();
-        logger.info("Check the list is not empty");
         return !countryList.isEmpty();
     }
 }

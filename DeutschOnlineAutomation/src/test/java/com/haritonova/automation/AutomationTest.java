@@ -32,14 +32,6 @@ public class AutomationTest {
     }
 
     @Test
-    public void testTranslation() {
-        logger.info("Test: check translation");
-        String word = "sonne";
-        String expectedTranslation = "солнце";
-        assertTrue("Translation is incorrect", steps.translateWord(word).contains(expectedTranslation));
-    }
-
-    @Test
     public void testSearchTitle() {
         logger.info("Test: check the correct search tittle");
         String input = "text";
@@ -52,12 +44,18 @@ public class AutomationTest {
         String input = "text";
         assertTrue("Incorrect search results", steps.searchResultsContainsInput(input));
     }
+    @Test
+    public void testNotEmptySearchResult() {
+        logger.info("Test: check the existence of search result");
+        String input = "text";
+        assertTrue("No results", steps.isNotEmptySearchResult(input));
+    }
 
     @Test
     public void testCoursesPage() {
         logger.info("Test: check the existence of country on courses page");
         String countryName = "Германия";
-        assertTrue("Incorrect courses list", steps.courseCounrtyExists(countryName));
+        assertTrue("Incorrect courses list", steps.courseCountryExists(countryName));
     }
 
     @Test
