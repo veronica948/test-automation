@@ -27,7 +27,7 @@ public class AutomationTest {
     @After
     public void stopBrowser()
     {
-        logger.info("Test stopped");
+        logger.info("Test finished");
         steps.closeDriver();
     }
 
